@@ -30,7 +30,7 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET,
 });
 app.get("/", (req, res) => {
-  res.render("index.ejs");
+  res.render("index.ejs", { result: "" });
 });
 
 app.post("/", (req, res) => {
@@ -59,18 +59,7 @@ app.post("/", (req, res) => {
         .resize(+newSize, +newSize)
         .toFile(`tmp/${size}/${newFilename}`);
       let imageFiles = `tmp/${size}/${newFilename}`;
-
-      //   readFileAsync(file.tempFilePath)
-      //     .then((buffer) => {
-      //       sharp(buffer)
-      //         .resize(+newSize, +newSize)
-      //         .toFile(`tmp/${size}/${newFilename}`, function (err) {
-      //           if (err) {
-      //             return err;
-      //           }
-      //         });
-      //       return `tmp/${size}/${newFilename}`;
-      //     })
+      console.log(`tmp/${size}/`);
 
       let stream = await readFileAsync(imageFiles);
       let cld_upload_stream = cloudinary.uploader.upload_stream(
@@ -79,7 +68,7 @@ app.post("/", (req, res) => {
         },
         async (err, result) => {
           if (err) throw err;
-          return res.json(result);
+          return res.render("index.ejs", { result: result });
         }
       );
       streamifier.createReadStream(stream).pipe(cld_upload_stream);

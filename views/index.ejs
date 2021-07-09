@@ -19,6 +19,7 @@
         height: 400px;
       }
     </style>
+
     <form action="/" method="POST" enctype="multipart/form-data">
       <div class="py-20 bg-gray-300 px-2">
         <div
@@ -102,8 +103,17 @@
                 </div>
                 <div class="flex mt-4 mb-3 mxw" id="thumbContainer">
                   <div class="m-auto">
-                    <span class="m-auto" id="previewText">Image Preview</span>
+                    <span class="m-auto" id="previewText"
+                      >Image Preview / Uploaded Image</span
+                    >
+                    <% if (result!=""){%>
 
+                    <img
+                      src="<%= result.secure_url %>"
+                      class="img-responsive"
+                      alt=""
+                    />
+                    <%}%>
                     <img
                       src=""
                       id="thumbImage"
