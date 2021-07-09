@@ -52,11 +52,6 @@ app.post("/", (req, res) => {
     }
     sizes.forEach(async (size) => {
       const [newSize] = size.split("x");
-      fs.access(`tmp/${size}`, (err) => {
-        if (err) {
-          fs.mkdirSync(`tmp/${size}`);
-        }
-      });
       const filename = file.name.replace(/\..+$/, "");
       const newFilename = `subhash-${filename}-${newSize}-${newSize}+123.jpeg`;
       let buffer = await readFileAsync(file.tempFilePath);
